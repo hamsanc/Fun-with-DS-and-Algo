@@ -1,0 +1,142 @@
+
+a.enqueue( 18852);
+        a.enqueue(46665);
+        a.enqueue(74564);
+
+        b.enqueue(9891);
+        b.enqueue(18200);
+        b.enqueue(20608);
+        b.enqueue(34396);
+        b.enqueue(36607);
+        b.enqueue(38644);
+        b.enqueue(53281);
+        b.enqueue(55908);
+        b.enqueue(65020);
+        b.enqueue(75952);
+        b.enqueue(80268);
+        //b.enqueue(11);
+
+
+
+
+
+
+
+
+
+
+public class DeluxeBFS {
+    private static final int INFINITY = Integer.MAX_VALUE;
+    private boolean[] marked;  // marked[v] = is there an s->v path?
+    private int[] edgeTo;      // edgeTo[v] = last edge on shortest s->v path
+    private int[] distTo;      // distTo[v] = length of shortest s->v path
+    private int commonanestor;
+    private int sl;
+
+    public DeluxeBFS(Digraph G, Iterable<Integer> sources) {
+        marked = new boolean[G.V()];
+        distTo = new int[G.V()];
+        edgeTo = new int[G.V()];
+        for (int v = 0; v < G.V(); v++)
+            distTo[v] = INFINITY;
+        validateVertices(sources);
+        bfs(G, sources);
+    }
+
+    // BFS from multiple sources
+    private void bfs(Digraph G, Iterable<Integer> sources) {
+        Queue<Integer> q = new Queue<Integer>();
+        for (int s : sources) {
+            marked[s] = true;
+            distTo[s] = 0;
+            commonanestor = -1;
+            sl = -1;
+            q.enqueue(s);
+        }
+
+        while (!q.isEmpty()) {
+            System.out.println("Elements in the queue  "+ q);
+
+            int v = q.dequeue();
+            System.out.println("Dequeued element "+ v);
+            System.out.print("Adjacent elements ");
+            for (int w : G.adj(v)) {
+                System.out.print(w+" ");
+                if (!marked[w]) {
+                    edgeTo[w] = v;
+                    distTo[w] = distTo[v] + 1;
+                    marked[w] = true;
+                    q.enqueue(w);
+                    System.out.println("Distance "+distTo[w]+" ");
+                }
+                else {
+                    System.out.println();
+                    if(commonanestor == -1){
+                        System.out.println("found something common first time");
+                        commonanestor = w;
+                        sl = distTo[w] + distTo[v] + 1;
+                        System.out.println("CA "+commonanestor);
+                        System.out.println("SL "+sl);
+                    } else {
+                        System.out.println("found something again");
+                        int len = distTo[w] + distTo[v] + 1;
+                        System.out.println(distTo[w]+" "+distTo[v]+" "+len);
+                        if(len < sl){
+                            commonanestor = w;
+                            sl = len;
+                            System.out.println("CA "+commonanestor);
+                            System.out.println("SL "+sl);
+                        }else break;
+                    }
+
+
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public int distTo(int v) {
+        validateVertex(v);
+        return distTo[v];
+    }
+
+
+    public int Commonanestor() {
+
+        return commonanestor;
+    }
+
+    public int shortestlength() {
+
+        return sl;
+    }
+
+
+    // throw an IllegalArgumentException unless {@code 0 <= v < V}
+    private void validateVertex(int v) {
+        int V = marked.length;
+        if (v < 0 || v >= V)
+            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
+    }
+
+    // throw an IllegalArgumentException unless {@code 0 <= v < V}
+    private void validateVertices(Iterable<Integer> vertices) {
+        if (vertices == null) {
+            throw new IllegalArgumentException("argument is null");
+        }
+        for (Integer v : vertices) {
+            if (v == null) {
+                throw new IllegalArgumentException("vertex is null");
+            }
+            validateVertex(v);
+        }
+    }
+
+
+
+
+    public static void main(String[] args) {
+
+    }
+}

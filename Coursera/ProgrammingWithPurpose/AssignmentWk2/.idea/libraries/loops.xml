@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="loops">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/loops.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

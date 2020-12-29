@@ -1,0 +1,148 @@
+Stack<Node> st = new Stack<Node>();
+        st.push(root);
+        while (!st.isEmpty()) {
+            Node x = st.pop();
+
+            if (x == null) {
+                System.out.println("nil");
+                continue;
+            }
+            System.out.println(x.p);
+
+            if (x.rect.distanceSquaredTo(p) > champ_r) {
+
+                continue;
+            }
+
+            double leftdist = Double.POSITIVE_INFINITY;
+            double rightdist = Double.POSITIVE_INFINITY;
+            if (x.left != null) {
+                leftdist = x.left.p.distanceSquaredTo(p);
+
+            }
+            if (x.right != null) {
+                rightdist = x.right.p.distanceSquaredTo(p);
+            }
+
+
+            if (leftdist <= rightdist) {
+                if (leftdist < champ_r) {
+                    champ_r = leftdist;
+                    champ_pt = x.left.p;
+                }
+                st.push(x.right);
+                st.push(x.left);
+            }
+            else {
+                if (rightdist < champ_r) {
+                    champ_r = rightdist;
+                    champ_pt = x.right.p;
+                }
+                st.push(x.left);
+                st.push(x.right);
+            }
+
+        }
+        return champ_pt;
+
+
+
+
+
+
+            if (x == null) return null;
+
+                System.out.println(x.p);
+                Point2D cpt;
+                if (x.orientation == 0) {
+                    int cmpx = Point2D.X_ORDER.compare(p, x.p);
+                    if (cmpx < 0) {
+                        if (x.left != null) {
+                            double leftdist = x.left.p.distanceSquaredTo(p);
+                            if (leftdist < champr) {
+                                cpt =  nearestpt(x.left, p, x.left.p, leftdist);
+                            }
+                            else {
+                                cpt =  nearestpt(x.left, p, chamPt, champr);
+                            }
+                            if (x.right != null) {
+                                double cr = cpt.distanceSquaredTo(p);
+                                if (x.right.rect.distanceSquaredTo(p) < cr ){
+                                    cpt =  nearestpt(x.right, p, cpt, cr);
+                                }
+                            }
+                            return cpt;
+                        }
+                    }
+                    else {
+                        if (x.right != null) {
+                            double rightdist = x.right.p.distanceSquaredTo(p);
+                            if (rightdist < champr) {
+                                cpt =  nearestpt(x.right, p, x.right.p, rightdist);
+                            }
+                            else {
+                                cpt =  nearestpt(x.right, p, chamPt, champr);
+
+                            }
+                            if (x.left != null) {
+                                double cr = cpt.distanceSquaredTo(p);
+                                if (x.left.rect.distanceSquaredTo(p) < cr ){
+                                    cpt =  nearestpt(x.left, p, cpt, cr);
+                                }
+                            }
+                            return cpt;
+                        }
+
+                    }
+
+                }
+                else {
+                    int cmpy = Point2D.Y_ORDER.compare(p, x.p);
+                    if (cmpy < 0) {
+                        if (x.left != null) {
+                            double leftdist = x.left.p.distanceSquaredTo(p);
+                            if (leftdist < champr) {
+                                cpt =  nearestpt(x.left, p, x.left.p, leftdist);
+
+                            }
+                            else {
+                                cpt =  nearestpt(x.left, p, chamPt, champr);
+                            }
+                            if (x.right != null) {
+                                double cr = cpt.distanceSquaredTo(p);
+                                if (x.right.rect.distanceSquaredTo(p) < cr ){
+                                    cpt =  nearestpt(x.right, p, cpt, cr);
+                                }
+                            }
+                            return cpt;
+                        }
+                    }
+                    else {
+                        if (x.right != null) {
+                            double rightdist = x.right.p.distanceSquaredTo(p);
+                            if (rightdist < champr) {
+                                cpt = nearestpt(x.right, p, x.right.p, rightdist);
+
+                            }
+                            else {
+                                cpt = nearestpt(x.right, p, chamPt, champr);
+
+                            }
+                            if (x.left != null) {
+                                double cr = cpt.distanceSquaredTo(p);
+                                if (x.left.rect.distanceSquaredTo(p) < cr ){
+                                    cpt =  nearestpt(x.left, p, cpt, cr);
+                                }
+                            }
+                            return cpt;
+                        }
+
+                    }
+                }
+
+                return chamPt;
+
+
+
+
+
